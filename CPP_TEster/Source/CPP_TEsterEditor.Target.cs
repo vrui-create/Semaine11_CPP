@@ -3,13 +3,13 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class CPP_Projet_11Target : TargetRules
+public class CPP_TEsterEditorTarget : TargetRules
 {
-	public CPP_Projet_11Target(TargetInfo Target) : base(Target)
+	public CPP_TEsterEditorTarget( TargetInfo Target) : base(Target)
 	{
-		Type = TargetType.Game;
+		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V5;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_6;
-		ExtraModuleNames.Add("CPP_Projet_11");
+		ExtraModuleNames.Add("CPP_TEster");
 	}
 }
