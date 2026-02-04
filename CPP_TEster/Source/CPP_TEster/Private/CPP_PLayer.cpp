@@ -6,6 +6,10 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Camera/CameraComponent.h"
 
+#include "InputMappingContext.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
+
 // Sets default values
 ACPP_PLayer::ACPP_PLayer()
 {
@@ -23,16 +27,19 @@ ACPP_PLayer::ACPP_PLayer()
 	CameraFPS = CreateDefaultSubobject<UCameraComponent>(TEXT("NAME_CAMERA_LOL"));
 	CameraFPS->SetupAttachment(Capsule);
 
-	//unreal engine c++ setup new input system ohttps://www.youtube.com/watch?v=I-VBDt6O2gM
-	if(UEnhancedInputComponent* input = CastChecked< UEnhancedInputComponent>(PlayerInputComponent))
-
 }
 
 // Called when the game starts or when spawned
 void ACPP_PLayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	if (APlayerController* PC = Cast<APlayerController>(Controller))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(MI_Player, 0);
+		}
+	}
 }
 
 // Called every frame
@@ -45,12 +52,22 @@ void ACPP_PLayer::Tick(float DeltaTime)
 // Called to bind functionality to input
 void ACPP_PLayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	Super::SetupPlayerInputComponent(PlayerInputComponent); //unreal engine c++ setup new input system ohttps://www.youtube.com/watch?v=I-VBDt6O2gM
+
+	if (UEnhancedInputComponent* input_player = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		input_player->BindAction(IA_Interaction, ETriggerEvent::Started, this, &ACPP_PLayer::interact_objet);
+	}
+	
 
 }
-
-
-void ACPP_PLayer::InteractEvent(const FInputActionValue& Value)
+void ACPP_PLayer::interact_objet(const FInputActionValue& Value)
 {
-
+	printf("Action effectuer");
+	UE_LOG(LogTemp, Warning, TEXT("Interaction !"));
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green,TEXT("Action effectuee !"));
+	}
 }
+

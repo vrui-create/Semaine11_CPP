@@ -1,14 +1,14 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-#pragma once
-
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "InputActionValue.h"
 #include "CPP_PLayer.generated.h"
 
 class UCapsuleComponent;
-class USkeletMeshComponent;
+class USkeletalMeshComponent;
 class UCameraComponent;
+class UStaticMeshComponent;
+class UInputMappingContext;
+class UInputAction;
 
 UCLASS()
 class CPP_TESTER_API ACPP_PLayer : public ACharacter
@@ -39,12 +39,13 @@ public:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* Viseur;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, Category = "EnhancedInput")
 	class UInputMappingContext* MI_Player;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	class UInputAction* IA_Interaction;
 
-	void InteractEvent(const FInputActionValue& Value);
-
+	//void InteractEvent(const FInputActionValue& Value);
+	UFUNCTION()
+	void interact_objet(const FInputActionValue& Value);
 };
