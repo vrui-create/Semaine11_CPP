@@ -12,8 +12,6 @@
 
 #include "DrawDebugHelpers.h"
 
-#include "CPP_Porte.h"
-
 // Sets default values
 ACPP_PLayer::ACPP_PLayer()
 {
@@ -67,7 +65,6 @@ void ACPP_PLayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("UEnhancedInputComponent, Fonctionne"));
 
 		Input_Player->BindAction(IA_Interaction, ETriggerEvent::Triggered, this, &ACPP_PLayer::InteractEvent_RAG);
-		Input_Player->BindAction(IA_Look_player, ETriggerEvent::Triggered, this, &ACPP_PLayer::InteractEvent_RAG);
 	}
 }
 
@@ -76,9 +73,14 @@ void ACPP_PLayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 void ACPP_PLayer::InteractEvent_RAG()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("InteractEvent, Fonctionne"));
+}
+
+void ACPP_PLayer::Line_Trace()
+{
+
 	FVector loc;
 	FRotator rot;
-	FHitResult OutHit;
+	FHitResult Hit;
 
 	GetController()->GetPlayerViewPoint(loc, rot);
 
@@ -86,28 +88,6 @@ void ACPP_PLayer::InteractEvent_RAG()
 	FVector End = Start + (rot.Vector() * 2000);
 
 	FCollisionQueryParams TraceParams;
-	GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, TraceParams);
-	DrawDebugLine(GetWorld(), Start, End, FColor::Orange, true, 10.0f);
-
-	bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, TraceParams);
-	if (bHit)
-	{
-		ACPP_Porte* Porte = Cast<ACPP_Porte>(OutHit.GetActor());
-		if (Porte)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Porte, Fonctionne"));
-			Porte->ChangeBool_TurnRound();
-		}
-	}
-}
-
-void ACPP_PLayer::MovePlayer(const FInputActionValue& value)
-{
-	/*APlayerController* PC = Cast<APlayerController>(GetController);
-
-	const FRotator Direction = 
-
-	const FVector MoveForwardDirection;
-	const FVector MoveRightDirection;
-	*/
+	GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
+	DrawDebugLine(GetWorld(), Start, End, FColor::Orange, false, 2.0f);
 }

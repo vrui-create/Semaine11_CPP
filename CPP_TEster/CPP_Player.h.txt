@@ -46,16 +46,8 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "UEnhancedInput")
 	class UInputAction* IA_Interaction;
-
-	UPROPERTY(EditAnywhere, Category = "UEnhancedInput")
-	class UInputAction* IA_Move_player;
-
-	UPROPERTY(EditAnywhere, Category = "UEnhancedInput")
-	class UInputAction* IA_Look_player;
 	//UFUNCTION()
 	//void InteractEvent(const FInputActionValue & Value);
 	void InteractEvent_RAG();
 
-
-	void MovePlayer(const FInputActionValue& value);
 };
