@@ -52,10 +52,18 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "UEnhancedInput")
 	class UInputAction* IA_Look_player;
-	//UFUNCTION()
-	//void InteractEvent(const FInputActionValue & Value);
+	
+	// Variable float exposée à Blueprint
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MyFloatValue;
+
+	UFUNCTION(BlueprintCallable)
+	void Set_CPP_Variable(float code_01, float code_02, float code_03, float code_04);
+
+	 
 	void InteractEvent_RAG();
 
-
 	void MovePlayer(const FInputActionValue& value);
+
+	void Look_RT(const FInputActionValue& Value);
 };
