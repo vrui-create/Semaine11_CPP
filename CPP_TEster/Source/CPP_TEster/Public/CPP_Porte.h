@@ -39,8 +39,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<class UUserWidget> widgetRef;
+
 	UPROPERTY()
-	UUserWidget* UI_Coding;
+	class UUserWidget* UI_Coding;
 
 
 

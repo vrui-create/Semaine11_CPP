@@ -38,6 +38,7 @@ void ACPP_Porte::BeginPlay()
 	if (IsValid(widgetRef))
 	{
 		UI_Coding = CreateWidget<UUserWidget>(GetWorld(), widgetRef);
+		UI_Coding->AddToViewport();
 	}
 }
 
@@ -65,10 +66,10 @@ void ACPP_Porte::Clear_Code()
 
 void ACPP_Porte::Sortir_Code()
 {
-	if (IsValid(UI_Coding))
+	/*if (IsValid(UI_Coding))
 	{
 		UI_Coding->RemoveFromParent();
-	}
+	}*/
 }
 
 void ACPP_Porte::TurnDoorRR()
@@ -102,10 +103,10 @@ void ACPP_Porte::ChangeBool_TurnRound()
 		if (Activaction)Activaction = false;
 		else Activaction = true;
 	}
-	else if(IsValid(UI_Coding))
+	/*else if(IsValid(UI_Coding))
 	{
 		UI_Coding->AddToViewport();
-	}
+	}*/
 }
 
 
