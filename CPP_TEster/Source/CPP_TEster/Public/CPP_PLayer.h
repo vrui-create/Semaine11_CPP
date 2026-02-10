@@ -44,21 +44,24 @@ public:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* Viseur;
 
-	UPROPERTY(EditAnywhere, Category = "UEnhancedInput")
+	UPROPERTY(EditAnywhere, Category = "IA_Player_Input")
 	class UInputMappingContext* MI_Player;
 
-	UPROPERTY(EditAnywhere, Category = "UEnhancedInput")
+	UPROPERTY(EditAnywhere, Category = "IA_Player_Input")
 	class UInputAction* IA_Interaction;
 
-	UPROPERTY(EditAnywhere, Category = "UEnhancedInput")
+	UPROPERTY(EditAnywhere, Category = "IA_Player_Input")
 	class UInputAction* IA_Move_player;
 
-	UPROPERTY(EditAnywhere, Category = "UEnhancedInput")
+	UPROPERTY(EditAnywhere, Category = "IA_Player_Input")
 	class UInputAction* IA_Look_player;
+
+	UPROPERTY(EditAnywhere, Category = "IA_Player_Input")
+	class UInputAction* IA_Jump_player;
 	
-	// Variable float exposée à Blueprint
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float MyFloatValue;
+	UPROPERTY(EditAnywhere, Category = "VARIABLE_VATS")
+	float ForceJumping;
+
 
 	UFUNCTION(BlueprintCallable)
 	void Set_CPP_Variable(bool Activer);
@@ -72,6 +75,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void OuvrePorte();
+
+	void jumping();
 
 	void MovePlayer(const FInputActionValue& value);
 

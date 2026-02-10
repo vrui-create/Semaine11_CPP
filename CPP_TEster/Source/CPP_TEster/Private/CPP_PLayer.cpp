@@ -9,6 +9,7 @@
 #include "InputMappingContext.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 #include "DrawDebugHelpers.h"
 
@@ -52,7 +53,7 @@ void ACPP_PLayer::BeginPlay()
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("MI_Mapping, Fonctionne"));
 			Subsystem->AddMappingContext(MI_Player, 0);
 		}
-
+		ForceJumping = 100.0f;
 		bUseControllerRotationYaw = true;
 		bUseControllerRotationPitch = true;
 		bUseControllerRotationRoll = false;
@@ -79,6 +80,7 @@ void ACPP_PLayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		Input_Player->BindAction(IA_Interaction, ETriggerEvent::Started, this, &ACPP_PLayer::InteractEvent_RAG);
 		Input_Player->BindAction(IA_Move_player, ETriggerEvent::Triggered, this, &ACPP_PLayer::MovePlayer);
 		Input_Player->BindAction(IA_Look_player, ETriggerEvent::Triggered, this, &ACPP_PLayer::Look_RT);
+		Input_Player->BindAction(IA_Jump_player, ETriggerEvent::Started, this, &ACPP_PLayer::jumping);
 	}
 }
 
@@ -121,6 +123,13 @@ void ACPP_PLayer::OuvrePorte()
 		CPP_PORTE_REF->Porte_Fermer = false;
 		CPP_PORTE_REF->ChangeBool_TurnRound();
 	}
+}
+
+void ACPP_PLayer::jumping()
+{
+	//FVector ImpulseJump = GetActorUpVector(); //Jump Actor
+	FVector ImpulseJump = CameraFPS->GetForwardVector();
+	GetCharacterMovement()->AddImpulse(ImpulseJump* ForceJumping, true);
 }
 
 
