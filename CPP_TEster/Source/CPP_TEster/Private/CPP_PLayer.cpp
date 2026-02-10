@@ -57,6 +57,7 @@ void ACPP_PLayer::BeginPlay()
 		bUseControllerRotationPitch = true;
 		bUseControllerRotationRoll = false;
 	}
+	ActionJoueur = true;
 }
 
 // Called every frame
@@ -82,9 +83,9 @@ void ACPP_PLayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 }
 
 
-void ACPP_PLayer::Set_CPP_Variable(float code_01, float code_02, float code_03, float code_04)
+void ACPP_PLayer::Set_CPP_Variable(bool Activer)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Blue, FString::Printf(TEXT("code_01 : %f| code_02 : %f | code_03 : %f| code_04 : %f"), code_01, code_02,code_03, code_04));
+	ActionJoueur = Activer;
 }
 
 //void ACPP_PLayer::InteractEvent(const FInputActionValue & Value)
@@ -104,36 +105,51 @@ void ACPP_PLayer::InteractEvent_RAG()
 	DrawDebugLine(GetWorld(), Start, End, FColor::Orange, true, 10.0f);
 
 	bool bHit = GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, TraceParams);
-	if (bHit)
+	if (bHit && ActionJoueur)
 	{
-		ACPP_Porte* Porte = Cast<ACPP_Porte>(OutHit.GetActor());
-		if (Porte)
+		CPP_PORTE_REF = Cast<ACPP_Porte>(OutHit.GetActor());
+		if (CPP_PORTE_REF)
 		{
-			
-			Porte->ChangeBool_TurnRound();
+			CPP_PORTE_REF->ChangeBool_TurnRound();
 		}
 	}
 }
+void ACPP_PLayer::OuvrePorte()
+{
+	if (CPP_PORTE_REF)
+	{
+		CPP_PORTE_REF->Porte_Fermer = false;
+		CPP_PORTE_REF->ChangeBool_TurnRound();
+	}
+}
+
+
 
 void ACPP_PLayer::MovePlayer(const FInputActionValue& value)
 {
-	FVector2D MoveValue = value.Get<FVector2D>();
-	if (GEngine)
+	if (ActionJoueur)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Blue, FString::Printf(TEXT("RRX : %f| RRY : %f"), MoveValue.X, MoveValue.Y));
+		FVector2D MoveValue = value.Get<FVector2D>();
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Blue, FString::Printf(TEXT("RRX : %f| RRY : %f"), MoveValue.X, MoveValue.Y));
+		}
+		const FVector Forward = GetActorForwardVector();
+		const FVector Right = GetActorRightVector();
+		AddMovementInput(Forward, MoveValue.X);
+		AddMovementInput(Right, MoveValue.Y);
 	}
-	const FVector Forward = GetActorForwardVector();
-	const FVector Right = GetActorRightVector();
-	AddMovementInput(Forward, MoveValue.X);
-	AddMovementInput(Right, MoveValue.Y);
 }
 
 void ACPP_PLayer::Look_RT(const FInputActionValue& Value)
 {
-	const FVector2D LookAxis = Value.Get<FVector2D>();
+	if (ActionJoueur)
+	{
+		const FVector2D LookAxis = Value.Get<FVector2D>();
 
-	GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Blue, FString::Printf(TEXT("RRX : %f| RRY : %f"), LookAxis.X, LookAxis.Y));
+		GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Blue, FString::Printf(TEXT("RRX : %f| RRY : %f"), LookAxis.X, LookAxis.Y));
 
-	AddControllerYawInput(LookAxis.X);
-	AddControllerPitchInput(-LookAxis.Y);
+		AddControllerYawInput(LookAxis.X);
+		AddControllerPitchInput(-LookAxis.Y);
+	}
 }

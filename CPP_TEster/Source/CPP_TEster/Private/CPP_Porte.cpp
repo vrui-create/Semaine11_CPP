@@ -2,6 +2,7 @@
 
 
 #include "CPP_Porte.h"
+#include "CPP_Player.h"
 #include "Blueprint/UserWidget.h"
 
 // Sets default values
@@ -35,11 +36,7 @@ void ACPP_Porte::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (IsValid(widgetRef))
-	{
-		UI_Coding = CreateWidget<UUserWidget>(GetWorld(), widgetRef);
-		UI_Coding->AddToViewport();
-	}
+	
 }
 
 // Called every frame
@@ -103,10 +100,27 @@ void ACPP_Porte::ChangeBool_TurnRound()
 		if (Activaction)Activaction = false;
 		else Activaction = true;
 	}
-	/*else if(IsValid(UI_Coding))
+	else
 	{
-		UI_Coding->AddToViewport();
-	}*/
+		PC = GetWorld()->GetFirstPlayerController();
+
+
+		if (IsValid(widgetRef) && PC)
+		{
+			ACPP_PLayer* PlayerREF = Cast<ACPP_PLayer>(PC->GetPawn());
+
+			PlayerREF->Set_CPP_Variable(false);
+
+			UI_Coding = CreateWidget<UUserWidget>(GetWorld(), widgetRef);
+			UI_Coding->AddToViewport();
+
+			PC->bShowMouseCursor = true;
+			FInputModeGameOnly InputMode;
+			PC->SetInputMode(InputMode);
+		}
+	}
+
+	
 }
 
 

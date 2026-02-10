@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "CPP_Porte.h"
 #include "CPP_PLayer.generated.h"
 
 
@@ -32,6 +33,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	
+
 	UPROPERTY()
 	USceneComponent* Root;
 
@@ -58,10 +61,17 @@ public:
 	float MyFloatValue;
 
 	UFUNCTION(BlueprintCallable)
-	void Set_CPP_Variable(float code_01, float code_02, float code_03, float code_04);
+	void Set_CPP_Variable(bool Activer);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class ACPP_Porte* CPP_PORTE_REF;
+
+	bool ActionJoueur;
 	 
 	void InteractEvent_RAG();
+
+	UFUNCTION(BlueprintCallable)
+	void OuvrePorte();
 
 	void MovePlayer(const FInputActionValue& value);
 

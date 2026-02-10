@@ -37,13 +37,15 @@ public:
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* Cube;
 
-	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	//UPROPERTY(EditDefaultsOnly, Category = "UI")
+	UPROPERTY(EditAnywhere, Category = "UI")
 	TSubclassOf<class UUserWidget> widgetRef;
 
 	UPROPERTY()
 	class UUserWidget* UI_Coding;
 
-
+	UPROPERTY()
+	class APlayerController* PC;
 
 
 	UPROPERTY(EditAnywhere)
