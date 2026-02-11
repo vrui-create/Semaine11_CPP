@@ -129,7 +129,7 @@ void ACPP_PLayer::jumping()
 {
 	//FVector ImpulseJump = GetActorUpVector(); //Jump Actor
 	FVector ImpulseJump = CameraFPS->GetForwardVector();
-	GetCharacterMovement()->AddImpulse(ImpulseJump* ForceJumping, true);
+	GetCharacterMovement()->AddImpulse(ImpulseJump* ForceJumping*10, true);
 }
 
 

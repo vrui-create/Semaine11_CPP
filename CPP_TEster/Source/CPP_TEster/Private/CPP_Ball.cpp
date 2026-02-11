@@ -9,7 +9,12 @@ ACPP_Ball::ACPP_Ball()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	USphere = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh_Sphere_Component"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("/Game/FBX/FBX_Sphere.FBX_Sphere")); // permet de setup la ball
 	RootComponent = USphere;
+	if (MeshAsset.Succeeded())
+	{
+		USphere->SetStaticMesh(MeshAsset.Object);
+	}
 
 }
 
